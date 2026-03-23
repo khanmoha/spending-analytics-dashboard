@@ -1,7 +1,11 @@
 "use client"
 import React, { useState } from "react"
 
-export default function TransactionForm() {
+type Props = {
+  onAdd: () => void
+}
+
+export default function TransactionForm({ onAdd }: Props) {
   const [title, setTitle] = useState("")
   const [amount, setAmount] = useState("")
   const [category, setCategory] = useState("")
@@ -25,9 +29,8 @@ export default function TransactionForm() {
       body: JSON.stringify(transaction)
     })
 
-    const data = await res.json()
-    console.log("Response:", data)
-    alert("Transaction added!")
+    // refresh list
+    onAdd()
 
     // clear form
     setTitle("")

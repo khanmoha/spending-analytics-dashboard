@@ -1,28 +1,10 @@
-"use client"
+import { Transaction } from "@/types/transaction"
 
-import { useEffect, useState } from "react"
-
-type Transaction = {
-  id: string
-  title: string
-  amount: number
-  category: string
-  date: string
+type Props = {
+  transactions: Transaction[]
 }
 
-export default function TransactionList() {
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-
-  useEffect(() => {
-    fetchTransactions()
-  }, [])
-
-  const fetchTransactions = async () => {
-    const res = await fetch("/api/transactions")
-    const data = await res.json()
-    setTransactions(data)
-  }
-
+export default function TransactionList({ transactions }: Props) {
   return (
     <div className="mt-6">
       <h2 className="text-xl font-bold mb-4">Transactions</h2>
