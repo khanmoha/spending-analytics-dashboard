@@ -1,21 +1,32 @@
+import { supabase } from "@/lib/supabase"
 import { NextResponse } from "next/server"
 
-// temporary in-memory storage
-const transactions: any[] = []
-
 export async function GET() {
-  return NextResponse.json(transactions)
+  const { data, error } = await supabase
+    .from("transactions")
+    .select("*")
+    .order("created_at", { ascending: false })
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json(data)
 }
 
 export async function POST(request: Request) {
   const body = await request.json()
+  console.log("Incoming transaction:", body)
 
-  const newTransaction = {
-    id: crypto.randomUUID(),
-    ...body
+  const { data, error } = await supabase
+    .from("transactions")
+    .insert([body])
+    .select()
+
+  if (error) {
+    console.error("SUPABASE ERROR:", error)
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  transactions.push(newTransaction)
-
-  return NextResponse.json(newTransaction)
+  return NextResponse.json(data[0])
 }
