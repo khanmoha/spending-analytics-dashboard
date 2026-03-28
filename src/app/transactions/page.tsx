@@ -21,7 +21,10 @@ export default function TransactionsPage() {
   return (
     <div className="p-6">
       <TransactionForm onAdd={fetchTransactions} />
-      <TransactionList transactions={transactions} />
+      <TransactionList
+        transactions={transactions}
+        onDelete={fetchTransactions}
+      />
     </div>
   )
 }
