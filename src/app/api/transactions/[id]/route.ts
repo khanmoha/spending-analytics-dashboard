@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 export async function DELETE(
   request: Request,
@@ -25,4 +25,33 @@ export async function DELETE(
     }
 
     return NextResponse.json({ message: "Transaction deleted" })
+}
+
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params
+  console.log("ID from params:", id)
+  const body = await req.json()
+
+  const { title, amount, category, date } = body
+
+  const { data, error } = await supabase
+    .from("transactions")
+    .update({
+      title,
+      amount,
+      category,
+      date
+    })
+    .eq("id", id)
+    .select("*")
+    .single()
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+
+    return NextResponse.json(data)
 }

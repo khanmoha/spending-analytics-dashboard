@@ -3,9 +3,10 @@ import { Transaction } from "@/types/transaction"
 type Props = {
   transactions: Transaction[]
   onDelete: () => void
+  onEdit: (transaction: Transaction) => void
 }
 
-export default function TransactionList({ transactions, onDelete }: Props) {
+export default function TransactionList({ transactions, onDelete, onEdit }: Props) {
   const handleDelete = async (id: string) => {
     await fetch(`/api/transactions/${id}`, {
       method: "DELETE"
@@ -29,6 +30,7 @@ export default function TransactionList({ transactions, onDelete }: Props) {
               <th className="p-2 border">Title</th>
               <th className="p-2 border">Category</th>
               <th className="p-2 border">Amount</th>
+              <th className="p-2 border">Actions</th>
             </tr>
           </thead>
 
@@ -41,12 +43,20 @@ export default function TransactionList({ transactions, onDelete }: Props) {
                   <td className="p-2 border">{t.category}</td>
                   <td className="p-2 border">{t.amount}</td>
                   <td className="p-2 border">
-                    <button
-                      className="text-red-600"
-                      onClick={() => handleDelete(t.id)}
-                    >
-                      Delete
-                    </button>
+                    <div className="flex gap-3">
+                      <button
+                        className="text-blue-500"
+                        onClick={() => onEdit(t)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="text-red-600"
+                        onClick={() => handleDelete(t.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )
