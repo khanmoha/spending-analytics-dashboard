@@ -85,7 +85,13 @@ Open:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-2) Create the schema in your hosted project by applying the migration in `supabase/migrations/`.
+2) Create the schema in your hosted project using the Supabase SQL Editor:
+
+   - In the [Supabase Dashboard](https://supabase.com/dashboard), open your project.
+   - Go to **SQL Editor** → **New query**.
+   - Open the migration file in this repo: `supabase/migrations/20260407120000_create_transactions.sql`.
+   - Copy its full contents into the query editor and click **Run** (or press the run shortcut).
+   - You should see success; the `public.transactions` table will exist in your hosted database.
 
 ## Troubleshooting
 
